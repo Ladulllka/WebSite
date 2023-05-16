@@ -20,8 +20,10 @@ namespace WarehouseApi2
 
 
         public DbSet<Carryngs> carryng { get; set; }
-        public DbSet<Warehouse> warehous { get; set; }
+        public DbSet<Warehouse> warehouse { get; set; }
         public DbSet<Product> product { get; set; }
+        public DbSet<Sales> sales { get; set; }
+        public DbSet<Category> category { get; set; }
 
 
     }

@@ -5,9 +5,9 @@ namespace WarehouseApi2.Model
     public class Category
     {
         [Key]
-        public int IdCategory { get; set; }
+        public int id_category { get; set; }
 
-        public string NameCategory { get; set; } = null!;
+        public string name_category { get; set; } = null!;
 
        
     }

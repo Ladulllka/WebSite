@@ -7,15 +7,15 @@ namespace WarehouseApi2.Model
     {
 
         [Key]
-        public int IdProduct { get; set; }
+        public int id_product { get; set; }
 
-        public string NameProduct { get; set; } = null!;
+        public string name_product { get; set; } = null!;
 
-        public string? Description { get; set; }
+        public string? description { get; set; }
 
-        public decimal Price { get; set; }
+        public decimal price { get; set; }
         [ForeignKey("category")]
-        public int? IdCategory { get; set; }
+        public int? id_category { get; set; }
 
         
 
