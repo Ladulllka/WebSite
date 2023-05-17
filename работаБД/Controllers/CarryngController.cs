@@ -14,11 +14,11 @@ namespace MyWebAPI.Controllers
     {
         [Route("Add/[controller]")]
         [HttpPost]
-        public IActionResult AddCarryng(int idProduct, int idWarehouse, int quanity)
+        public IActionResult AddCarryng(int idCounterparty, int idProduct, int idWarehouse, int quanity, int cost)
         {
         
             Carryngs newCarryng = new Carryngs();
-            newCarryng.AddNew(idProduct, idWarehouse, quanity); //С помощью методов класса Carryng добавляем в БД 
+            newCarryng.AddNew(idCounterparty, idProduct, idWarehouse, quanity, cost); //С помощью методов класса Carryng добавляем в БД 
          
             return Ok(newCarryng.GetAll());
         }
@@ -28,11 +28,7 @@ namespace MyWebAPI.Controllers
         public IActionResult Show()
         {
             ContextDB DB = new ContextDB();
-            var sale = DB.sales.ToList();
-            var carryngs = DB.carryng.ToList();
-            var categoryes = DB.category.ToList();
-            var products = DB.product.ToList();
-            var warehouses = DB.warehouse.ToList();// Создаем новый объект Carryng из параметров запроса
+            // Создаем новый объект Carryng из параметров запроса
             Carryngs newCarryng = new Carryngs();
             return Ok(newCarryng.GetAll());
         }

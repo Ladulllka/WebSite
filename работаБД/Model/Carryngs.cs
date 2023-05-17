@@ -21,7 +21,6 @@ namespace WarehouseApi2.Model
 
         public double? cost { get; set; }
 
-        public double? total { get; set; }
 
         public virtual int NewIndex() // метод определения нового перчивного ключа для таблицы Carryng
         {
@@ -37,14 +36,16 @@ namespace WarehouseApi2.Model
                 return (Max + 1);
             }
         }
-        public virtual void AddNew(int idProduct, int idWarehouse, int quanity) // метод добавления новой записи в таблицу Carryng
+        public virtual void AddNew(int idCounterparty, int idProduct, int idWarehouse, int quanity, int cost) // метод добавления новой записи в таблицу Carryng
         {
 
             Carryngs newData = new Carryngs();
+            newData.id_counterparty = idCounterparty;
             newData.id_carryng = newData.NewIndex();
             newData.id_product = idProduct;
             newData.id_warehouse = idWarehouse;
             newData.quanity = quanity;
+            newData.cost = cost;
             using (ContextDB db = new ContextDB())
             {
                 db.Add(newData);
