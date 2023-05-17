@@ -14,7 +14,14 @@ namespace WarehouseApi2.Model
         [ForeignKey("Warehouse")]
         public int? id_warehouse { get; set; }
 
+        [ForeignKey("Counterparty")]
+        public int? id_counterparty { get; set; }
+
         public int quanity { get; set; }
+
+        public double? cost { get; set; }
+
+        public double? total { get; set; }
 
         public virtual int NewIndex() // метод определения нового перчивного ключа для таблицы Carryng
         {

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using WarehouseApi2;
 using WarehouseApi2.Model;
 
 namespace MyWebAPI.Controllers
@@ -15,7 +16,7 @@ namespace MyWebAPI.Controllers
         [HttpPost]
         public IActionResult AddCarryng(int idProduct, int idWarehouse, int quanity)
         {
-            // Создаем новый объект Carryng из параметров запроса
+        
             Carryngs newCarryng = new Carryngs();
             newCarryng.AddNew(idProduct, idWarehouse, quanity); //С помощью методов класса Carryng добавляем в БД 
          
@@ -26,6 +27,12 @@ namespace MyWebAPI.Controllers
         [HttpGet]
         public IActionResult Show()
         {
+            ContextDB DB = new ContextDB();
+            var sale = DB.sales.ToList();
+            var carryngs = DB.carryng.ToList();
+            var categoryes = DB.category.ToList();
+            var products = DB.product.ToList();
+            var warehouses = DB.warehouse.ToList();// Создаем новый объект Carryng из параметров запроса
             Carryngs newCarryng = new Carryngs();
             return Ok(newCarryng.GetAll());
         }

@@ -24,6 +24,7 @@ namespace WarehouseApi2
         public DbSet<Product> product { get; set; }
         public DbSet<Sales> sales { get; set; }
         public DbSet<Category> category { get; set; }
+        public DbSet<counterparty> counterparty { get; set; }
 
 
     }
