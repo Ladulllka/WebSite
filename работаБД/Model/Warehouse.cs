@@ -5,7 +5,7 @@ namespace WarehouseApi2.Model
     public partial class Warehouse
     {
         [Key]
-        public int id_warehouse { get; set; }
+        public Guid id_warehouse { get; set; }
         public string name_warehouse { get; set; } = null!;
 
         public string address_warehouse { get; set; } = null!;

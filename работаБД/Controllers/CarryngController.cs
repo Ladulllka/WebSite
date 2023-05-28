@@ -8,37 +8,120 @@ namespace MyWebAPI.Controllers
 {
     // Атрибут ApiController включает некоторые функции Web API
     [ApiController]
-    // Атрибут Route указывает шаблон URL для контроллера
+    
 
     public class CarryngController : ControllerBase
     {
         [Route("Add/[controller]")]
         [HttpPost]
-        public IActionResult AddCarryng(int idCounterparty, int idProduct, int idWarehouse, int quanity, int cost)
+        public IActionResult AddCarryng([FromBody]Carryngs NewCarryng)
         {
-        
-            Carryngs newCarryng = new Carryngs();
-            newCarryng.AddNew(idCounterparty, idProduct, idWarehouse, quanity, cost); //С помощью методов класса Carryng добавляем в БД 
-         
-            return Ok(newCarryng.GetAll());
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            using (ContextDB db = new ContextDB())
+            {
+                NewCarryng.id_carryng = Guid.NewGuid();
+                db.Add(NewCarryng);
+                db.SaveChanges();
+            }
+            return Ok();
         }
+
+       
 
         [Route("Show/[controller]")]
         [HttpGet]
         public IActionResult Show()
         {
+      
             ContextDB DB = new ContextDB();
-            // Создаем новый объект Carryng из параметров запроса
-            Carryngs newCarryng = new Carryngs();
-            return Ok(newCarryng.GetAll());
+       
+            var carryngs = DB.carryng.ToList();
+
+           
+ 
+            return Ok(carryngs);
         }
+
         [Route("Delete/[controller]")]
         [HttpDelete]
-        public IActionResult DeleteCarryng(int id_carryng)
+        public IActionResult DeleteCarryng(Guid id_carryng)
         {
-            Carryngs newCarryng = new Carryngs();
-            newCarryng.DeleteById(id_carryng);
-            return Ok(newCarryng.GetAll());
+            using(ContextDB db = new ContextDB())
+            {
+                Carryngs DelCarryng = db.carryng.Find(id_carryng);
+                if (DelCarryng != null)
+                {
+                    db.Remove(DelCarryng);
+                    db.SaveChanges();
+                    return Ok();
+                }
+
+                return BadRequest(ModelState);  
+            }
+          
+        }
+
+        [Route("Update/[controller]")]
+        [HttpPut]
+        public IActionResult UpdateCounterparty([FromBody] Carryngs UpdateCarryngs)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            using (ContextDB db = new ContextDB())
+            {
+              
+              
+
+
+                var FindCarryng = db.carryng.Find(UpdateCarryngs.id_carryng);
+                if (FindCarryng == null)
+                {
+                    return NotFound();
+                }
+                var FindStock = db.stock.Find(UpdateCarryngs.id_product, UpdateCarryngs.id_warehouse);
+
+                if (FindStock == null) // проверяем, что FindStock не равен null
+                {
+                    return NotFound(); // возвращаем статус 404, если объект не найден
+                }
+                FindStock.quanity = (FindStock.quanity - FindCarryng.quanity) + UpdateCarryngs.quanity;
+
+                if (UpdateCarryngs.id_counterparty.ToString() != "3fa85f64-5717-4562-b3fc-2c963f66afa6") FindCarryng.id_counterparty = UpdateCarryngs.id_counterparty;
+
+                if (UpdateCarryngs.id_product.ToString() != "3fa85f64-5717-4562-b3fc-2c963f66afa6") FindCarryng.id_product = UpdateCarryngs.id_product;
+
+                if (UpdateCarryngs.id_warehouse.ToString() != "3fa85f64-5717-4562-b3fc-2c963f66afa6") FindCarryng.id_warehouse = UpdateCarryngs.id_warehouse;
+
+                if (UpdateCarryngs.quanity != 0) FindCarryng.quanity = UpdateCarryngs.quanity;
+
+                if (UpdateCarryngs.cost != 0 ) FindCarryng.quanity = UpdateCarryngs.quanity;
+
+                
+               
+            
+                db.Update(FindCarryng);
+                db.Update(FindStock);
+                db.SaveChanges();
+
+
+
+
+
+                //if (UpdateCounterparty.name_counterparty != "string") FindCounterparty.name_counterparty = UpdateCounterparty.name_counterparty;
+
+                //if (UpdateCounterparty.phone != "string") FindCounterparty.phone = UpdateCounterparty.phone;
+
+            
+
+                db.SaveChanges();
+            }
+            return Ok();
         }
 
     }

@@ -1,11 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WarehouseApi2.Model
 {
-    public class counterparty
+    public class Counterparty
     {
         [Key]
-        public int id_counterparty { get; set; }
+
+         public Guid id_counterparty { get; set; }
         public string? name_counterparty { get; set; }
         
         public string? phone { get; set; }

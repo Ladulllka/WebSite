@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WarehouseApi2.Model
@@ -7,15 +8,15 @@ namespace WarehouseApi2.Model
     {
 
         [Key]
-        public int id_product { get; set; }
-
+         public Guid id_product { get; set; } 
+ 
         public string name_product { get; set; } = null!;
 
         public string? description { get; set; }
 
         public decimal price { get; set; }
         [ForeignKey("category")]
-        public int? id_category { get; set; }
+        public Guid? id_category { get; set; }
 
         
 
