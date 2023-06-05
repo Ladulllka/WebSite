@@ -1,0 +1,64 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; margin-top:15%; background-color: transparent">
+
+    <div style="width: 50%; display:flex; flex-direction:column; align-items:center; height:400px; justify-content: space-around;">
+
+        <div class="Chose-warehouse">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Warehouse" asp-action="AddNewWarehouse">Add new warehouse</a>
+        </div>
+
+        <div class="Chose-warehouse">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Warehouse" asp-action="DeleteWarehouse">Delete warehouse</a>
+        </div>
+
+    </div>
+
+    <div style="width: 50%; display:flex; flex-direction:column; align-items:center; height:400px; justify-content: space-around;">
+
+        <div class="Chose-warehouse">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Warehouse" asp-action="UpdateWarehouse">Update warehouse</a>
+        </div>
+
+        <div class="Chose-warehouse">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Warehouse" asp-action="ShowWarehouse">Show warehouse</a>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    body{
+        background-color: transparent;
+    }
+    .Chose-warehouse {
+        text-align: center;
+        width: 190px;
+        margin-top: 10px;
+        border-width: 7px;
+        border-radius: 30px;
+        border-style: inset;
+        border-color: burlywood;
+        transition: transform 0.5s; /* добавлено */
+    }
+
+        .Chose-warehouse:hover {
+            transform: scale(1.2); /* добавлено */
+        }
+
+    html {
+        background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url(../../Assets/pngegg.png);
+        
+        background-repeat: no-repeat;
+        background-position: center;
+      
+      
+    }
+   
+</style>
+
