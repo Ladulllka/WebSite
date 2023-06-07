@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using WarehouseApi2;
 using WarehouseApi2.Model;
@@ -12,9 +13,10 @@ namespace MyWebAPI.Controllers
 
     public class CarryngController : ControllerBase
     {
-        [Route("Add/[controller]")]
-        [HttpPost]
-        public IActionResult AddCarryng([FromBody]Carryngs NewCarryng)
+        [Route("Add/[controller]/{id_warehouse}/{id_product}/{Quantity}")]
+        [HttpGet]
+        [EnableCors(PolicyName = "AllowAll")]
+        public IActionResult AddCarryng([FromRoute] Guid id_warehouse, [FromRoute] Guid id_product, [FromRoute] int Quantity)
         {
             if (!ModelState.IsValid)
             {
@@ -22,14 +24,18 @@ namespace MyWebAPI.Controllers
             }
             using (ContextDB db = new ContextDB())
             {
+                Carryngs NewCarryng = new Carryngs();
                 NewCarryng.id_carryng = Guid.NewGuid();
+                NewCarryng.id_warehouse = id_warehouse;
+                NewCarryng.id_product = id_product;
+                NewCarryng.quanity = Quantity;
                 db.Add(NewCarryng);
                 db.SaveChanges();
             }
             return Ok();
         }
 
-       
+
 
         [Route("Show/[controller]")]
         [HttpGet]

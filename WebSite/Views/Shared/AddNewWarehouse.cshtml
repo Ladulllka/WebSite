@@ -3,3 +3,52 @@
 *@
 @{
 }
+
+<input class="name"></input>
+
+<input class="adres"></input>
+
+<button id="accept-button" class="AcceptData"></button> <!-- Добавляем идентификатор -->
+
+<script>
+
+    // Оборачиваем весь код в функцию, которая будет вызвана после загрузки элементов
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const input1 = document.querySelector(".name");
+        const input2 = document.querySelector(".adres");
+        const button = document.querySelector("#accept-button"); // Используем идентификатор
+
+        function clickMe() {
+            // Получаем значения из инпутов
+            let name = input1.value;
+            let address = input2.value;
+
+            // Формируем URL для запроса
+            let url = `https://localhost:7188/Add/Warehouse/${name}/${address}`;
+
+            // Отправляем запрос с помощью fetch()
+            fetch(url, {
+                method: 'GET'   
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Обрабатываем успешный ответ
+                        console.log("Данные успешно добавлены");
+                    } else {
+                        // Обрабатываем ошибку
+                        console.log("Произошла ошибка: " + response.status);
+                    }
+                })
+                .catch(error => {
+                    // Обрабатываем исключение
+                    console.error("Произошла ошибка: " + error);
+                });
+        }
+
+        // Добавляем обработчик события клика на кнопку
+        button.addEventListener("click", clickMe);
+
+    });
+  
+</script>

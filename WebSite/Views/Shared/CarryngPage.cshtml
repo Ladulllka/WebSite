@@ -1,0 +1,60 @@
+﻿
+<h1>Carryng Page</h1>
+
+<form id="carryng-form">
+    <div class="form-group">
+        <label for="warehouse">Warehouse</label>
+        <select id="warehouse" name="warehouse" asp-items="@(new SelectList(ViewBag.Warehouses, "id_warehouse", "name_warehouse"))" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label for="product">Product</label>
+        <select id="product" name="product" asp-items="@(new SelectList(ViewBag.Products, "id_product", "name_product"))" class="form-control"></select>
+        <input id="quantity"></input>
+    </div>
+
+    <button type="submit" class="btn btn-primary" id="ButtonAccept">Accept</button>
+
+</form>
+
+<script>
+    let ViewBag = @Html.Raw(Json.Serialize(ViewBag.Warehouses));
+    console.log(ViewBag);
+  
+    var button = document.getElementById("ButtonAccept");
+
+    var warehouse = document.getElementById("warehouse");
+
+    var product = document.getElementById("product");
+
+    var quantity = document.getElementById("quantity");
+
+   
+    function clickMe() {
+        let id_warehouse = warehouse.value;
+        let id_product = product.value;
+        let quantityRes = quantity.value;
+
+      
+        let url = `https://localhost:7188/Add/Carryng/${id_warehouse}/${id_product}/${quantityRes}`;
+
+      
+        fetch(url, {
+            method: 'GET'
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Обрабатываем успешный ответ
+                    console.log("Данные успешно добавлены");
+                } else {
+                    // Обрабатываем ошибку
+                    console.log("Произошла ошибка: " + response.status);
+                }
+            })
+            .catch(error => {
+                // Обрабатываем исключение
+                console.error("Произошла ошибка: " + error);
+            });
+    }
+    button.addEventListener("click", clickMe);
+
+</script>

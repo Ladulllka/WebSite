@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using WarehouseApi2;
 using WarehouseApi2.Model;
 
@@ -10,24 +11,26 @@ namespace MyWebAPI.Controllers
 
     public class SalesController : ControllerBase
     {
-        [Route("Add/[controller]")]
-        [HttpPost]
-        public IActionResult AddSales([FromBody] Sales NewSales)
+        [Route("Add/[controller]/{id_warehouse}/{id_product}/{Quantity}")]
+        [HttpGet]
+        [EnableCors(PolicyName = "AllowAll")]
+        public IActionResult AddSales([FromRoute] Guid id_warehouse, [FromRoute] Guid id_product, [FromRoute] int Quantity)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            // Создаем новый объект Sales из параметров запроса
-
-            using (ContextDB db = new ContextDB()) {
+            using (ContextDB db = new ContextDB())
+            {
+                Sales NewSales = new Sales();
                 NewSales.id_sales = Guid.NewGuid();
+                NewSales.id_warehouse = id_warehouse;
+                NewSales.id_product = id_product;
+                NewSales.quanity = Quantity;
                 db.Add(NewSales);
                 db.SaveChanges();
-              
-                }
-
-                return Ok(NewSales);
+            }
+            return Ok();
         }
 
         [Route("Show/[controller]")]

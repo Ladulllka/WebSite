@@ -1,5 +1,166 @@
-﻿@*
+﻿@using WarehouseApi2.Model
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
+
+
+<head>
+    <link rel="stylesheet" href="~/css/WarehouseShow.css" asp-append-version="true" />
+
+</head>
+
+@model List<Warehouse> // указать тип модели
+
+<!-- Подключить Bootstrap CSS и JS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div class="container">
+    @{
+        if (Model != null)
+            foreach (var d in Model)
+            {
+                <div class="row warehouse-row" data-id="@d.id_warehouse" data-toggle="modal" data-target="#products-modal-@d.id_warehouse">
+                    <!-- Добавляем класс и атрибут для div с записью склада и атрибуты для модального окна -->
+                    <div class="col1">
+                        <div class="col">Id: @d.id_warehouse</div>
+                        <div class="col">Name: @d.name_warehouse</div>
+                        <div class="col">Address: @d.address_warehouse</div>
+                    </div>
+
+                    <div class="col1">
+                        <div class="col"><button class="delete-button" data-id="@d.id_warehouse">Delete</button></div> <!-- Добавляем кнопку с атрибутом data-id -->
+                    </div>
+            
+                </div>
+
+                <!-- Создаем модальное окно с id products-modal-@d.id_warehouse -->
+                <div class="modal fade" id="products-modal-@d.id_warehouse" tabindex="-1" role="dialog" aria-labelledby="products-modal-label-@d.id_warehouse" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="products-modal-label-@d.id_warehouse">Products List</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Здесь будет выводиться список продуктов и их количество -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+    }
+
+    <style src=""></style>
+
+    <script>
+        // Оборачиваем весь код в функцию, которая будет вызвана после загрузки элементов
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // Получаем все кнопки с классом delete-button
+            const deleteButtons = document.querySelectorAll(".delete-button");
+
+            function deleteMe() {
+                // Получаем id склада из атрибута data-id
+                let id = this.getAttribute("data-id");
+
+                // Формируем URL для запроса
+                let url = `https://localhost:7188/Dell/Warehouse/${id}`; // Добавляем id склада в URL
+
+                // Отправляем запрос с помощью fetch()
+                fetch(url, {
+                    method: 'GET'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Обрабатываем успешный ответ
+                            console.log("Склад успешно удален");
+                            // Удаляем div с данными склада из DOM
+                            this.parentNode.parentNode.remove();
+                        } else {
+                            // Обрабатываем ошибку
+                            console.log("Произошла ошибка: " + response.status);
+                        }
+                    })
+                    .catch(error => {
+                        // Обрабатываем исключение
+                        console.error("Произошла ошибка: " + error);
+                    });
+            }
+
+            // Добавляем обработчик события клика на каждую кнопку
+            for (let button of deleteButtons) {
+                button.addEventListener("click", deleteMe);
+            }
+
+            // Получаем все div с классом warehouse-row
+            const warehouseRows = document.querySelectorAll(".warehouse-row");
+
+            function showProducts() {
+                // Получаем id склада из атрибута data-id
+                let id = this.getAttribute("data-id");
+
+                // Формируем URL для запроса
+                let url = `https://localhost:7188/Show/Stock/${id}`; // Добавляем id склада в URL
+
+                // Отправляем запрос с помощью fetch()
+                fetch(url, {
+                    method: 'GET'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Обрабатываем успешный ответ
+                            return response.json(); // Возвращаем промис с данными в формате JSON
+                        } else {
+                            // Обрабатываем ошибку
+                            console.log("Произошла ошибка: " + response.status);
+                        }
+                    })
+                    .then(data => {
+                        if (data) {
+                            console.log(data);
+                            // Получаем модальное окно по id
+                            let modal = document.querySelector("#products-modal-" + id); // Добавляем id склада к селектору
+                            // Получаем элемент для вывода списка продуктов и их количества
+                            let modalBody = modal.querySelector(".modal-body");
+                            // Очищаем предыдущий список
+                            modalBody.innerHTML = "";
+                            // Создаем элемент ul для хранения списка продуктов и их количества
+                            let ul = document.createElement("ul");
+                            // Проходим по массиву данных из ответа
+                            for (let item of data) {
+                                // Создаем элемент li для вывода имени продукта и его количества
+                                let li = document.createElement("li");
+                                // Заполняем элемент данными из ответа
+                                li.textContent = item.productName + ": " + item.quantity;
+                                // Добавляем элемент li в элемент ul
+                                ul.appendChild(li);
+                            }
+                            // Добавляем элемент ul в модальное окно
+                            modalBody.appendChild(ul);
+                        }
+                    })
+                    .catch(error => {
+                        // Обрабатываем исключение
+                        console.error("Произошла ошибка: " + error);
+                    });
+            }
+
+            // Добавляем обработчик события клика на каждый div
+            for (let row of warehouseRows) {
+                row.addEventListener("click", showProducts);
+            }
+
+        });
+    </script>
+
+
+

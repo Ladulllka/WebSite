@@ -1,0 +1,66 @@
+﻿<form id="carryng-form">
+    <div class="form-group">
+        <label for="warehouse">Warehouse</label>
+        <select id="warehouse" name="warehouse" asp-items="@(new SelectList(ViewBag.Data, "WarehouseID", "WarehouseName"))" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label for="product">Product</label>
+        <select id="product" name="product"  class="form-control"></select>
+        <input id="quantity"></input>
+    </div>
+    <button type="submit" class="btn btn-primary" id="ButtonAccept">Accept</button>
+</form>
+<script>
+    // Получаем элементы формы
+    var button = document.getElementById("ButtonAccept");
+    var warehouse = document.getElementById("warehouse");
+    var product = document.getElementById("product");
+    var quantity = document.getElementById("quantity");
+
+    // Создаем экземпляр HttpClient
+    // Добавляем обработчик события submit на форму
+    function clickMe() {
+        let id_warehouse = warehouse.value;
+        let id_product = product.value;
+        let quantityRes = quantity.value;
+
+        // Формируем URL для запроса
+        let url = `https://localhost:7188/Add/Sales/${id_warehouse}/${id_product}/${quantityRes}`;
+
+        // Отправляем запрос с помощью fetch()
+        fetch(url, { method: 'GET' })
+            .then(response => {
+                if (response.ok) {
+                    // Обрабатываем успешный ответ
+                    console.log("Данные успешно добавлены");
+                } else {
+                    // Обрабатываем ошибку
+                    console.log("Произошла ошибка: " + response.status);
+                }
+            })
+            .catch(error => {
+                // Обрабатываем исключение
+                console.error("Произошла ошибка: " + error);
+            });
+    }
+    button.addEventListener("click", clickMe);
+
+    // Добавляем обработчик события change на первый выпадающий список
+    warehouse.addEventListener("change", function () {
+
+        let ViewBag = @Html.Raw(Json.Serialize(ViewBag.Data));
+        // Получаем выбранное значение склада
+        let selectedWarehouse = warehouse.value;
+        // Фильтруем продукты по складу
+        let filteredProducts = ViewBag.filter(product => product.warehouseID === selectedWarehouse);
+        // Очищаем второй выпадающий список
+        product.innerHTML = "";
+        // Добавляем отфильтрованные продукты во второй выпадающий список
+        for (let prod of filteredProducts) {
+            let option = document.createElement("option");
+            option.value = prod.productID;
+            option.text = prod.productName;
+            product.appendChild(option);
+        }
+    });
+</script>

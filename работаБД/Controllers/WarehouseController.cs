@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using WarehouseApi2.Model;
 
 namespace WarehouseApi2.Controllers
 {
     public class WarehouseController : Controller
     {
+
+
         [Route("Add/[controller]/{name_warehouse}/{address_warehouse}")]
         [HttpGet]
+        [EnableCors(PolicyName = "AllowAll")] // Используем политику с именем “AllowAll”
+
         public IActionResult AddWarehouse([FromRoute] Warehouse NewWarehouse)
         {
             if (!ModelState.IsValid)
@@ -15,7 +20,7 @@ namespace WarehouseApi2.Controllers
             }
             using (ContextDB db = new ContextDB())
             {
-                NewWarehouse.id_warehouse= Guid.NewGuid();
+                NewWarehouse.id_warehouse = Guid.NewGuid();
                 db.Add(NewWarehouse);
                 db.SaveChanges();
             }
@@ -24,7 +29,7 @@ namespace WarehouseApi2.Controllers
 
         [Route("Show/[controller]")]
         [HttpGet]
-        public IActionResult GetAllWarehouse ()
+        public IActionResult GetAllWarehouse()
         {
             using (ContextDB db = new ContextDB())
             {
@@ -34,8 +39,11 @@ namespace WarehouseApi2.Controllers
 
         }
 
-        [Route("Dell/[controller]")]
-        [HttpDelete]
+
+
+        [Route("Dell/[controller]/{id_warehouse}")]
+        [HttpGet]
+        [EnableCors(PolicyName = "AllowAll")]
         public IActionResult DeleteWarehouseByID(Guid id_warehouse)
         {
             using (ContextDB db = new ContextDB())
@@ -80,6 +88,7 @@ namespace WarehouseApi2.Controllers
             }
             return Ok();
         }
+
 
     }
 }
