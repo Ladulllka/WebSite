@@ -18,48 +18,64 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<div class="container">
+
+
+<div class="container" style="   border-radius: 12px;    box-shadow: 0 4px 16px 2px rgb(0 26 52 / 20%);    padding-top: 10px;    padding-bottom: 15px;">
+    <div  class = "HeadList" style="">
+        <h1>        Warehouse page    </h1>
+        <div class="Chose-warehouse">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Warehouse" asp-action="AddNewWarehouse">Add new warehouse</a>
+        </div>
+
+    </div>
+    
+    <div class="content">
     @{
         if (Model != null)
             foreach (var d in Model)
             {
-                <div class="row warehouse-row" data-id="@d.id_warehouse" data-toggle="modal" data-target="#products-modal-@d.id_warehouse">
-                    <!-- Добавляем класс и атрибут для div с записью склада и атрибуты для модального окна -->
-                    <div class="col1">
-                        <div class="col">Id: @d.id_warehouse</div>
-                        <div class="col">Name: @d.name_warehouse</div>
-                        <div class="col">Address: @d.address_warehouse</div>
-                    </div>
+                                        <div class="row warehouse-row" style="margin-bottom:20px;" data-id="@d.id_warehouse" data-toggle="modal" data-target="#products-modal-@d.id_warehouse">
+                                            <!-- Добавляем класс и атрибут для div с записью склада и атрибуты для модального окна -->
+                                            <div class="col1">
+                                                <div class="col">Id: @d.id_warehouse</div>
+                                                <div class="col">Name: @d.name_warehouse</div>
+                                                <div class="col">Address: @d.address_warehouse</div>
+                                            </div>
 
-                    <div class="col1">
-                        <div class="col"><button class="delete-button" data-id="@d.id_warehouse">Delete</button></div> <!-- Добавляем кнопку с атрибутом data-id -->
-                    </div>
-            
-                </div>
+                                            <div class="col1">
+                                                <div class="col">
 
-                <!-- Создаем модальное окно с id products-modal-@d.id_warehouse -->
-                <div class="modal fade" id="products-modal-@d.id_warehouse" tabindex="-1" role="dialog" aria-labelledby="products-modal-label-@d.id_warehouse" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="products-modal-label-@d.id_warehouse">Products List</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <!-- Здесь будет выводиться список продуктов и их количество -->
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                                    <button class="delete-button" data-id="@d.id_warehouse">Delete</button>
+
+                                                </div> <!-- Добавляем кнопку с атрибутом data-id -->
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="modal fade" id="products-modal-@d.id_warehouse" tabindex="-1" role="dialog" aria-labelledby="products-modal-label-@d.id_warehouse" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="products-modal-label-@d.id_warehouse">Products List @d.name_warehouse</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <!-- Здесь будет выводиться список продуктов и их количество -->
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
             }
     }
+    </div>
 
-    <style src=""></style>
+ <script src=""></script>
 
     <script>
         // Оборачиваем весь код в функцию, которая будет вызвана после загрузки элементов
@@ -68,18 +84,23 @@
             // Получаем все кнопки с классом delete-button
             const deleteButtons = document.querySelectorAll(".delete-button");
 
+
             function deleteMe() {
                 // Получаем id склада из атрибута data-id
                 let id = this.getAttribute("data-id");
+                //let list = document.querySelector(`.${id}`);
+                //console.log(list);
 
                 // Формируем URL для запроса
                 let url = `https://localhost:7188/Dell/Warehouse/${id}`; // Добавляем id склада в URL
 
                 // Отправляем запрос с помощью fetch()
+                console.log(url);
                 fetch(url, {
                     method: 'GET'
                 })
                     .then(response => {
+
                         if (response.ok) {
                             // Обрабатываем успешный ответ
                             console.log("Склад успешно удален");

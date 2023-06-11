@@ -22,6 +22,7 @@ namespace WebSite.Controllers
             var warehouses = dataWaregouse.ToList();
 
             ViewBag.Warehouses = warehouses;
+           
 
 
             HttpResponseMessage ResponseProduct = await client.GetAsync("https://localhost:7188/Show/Product");

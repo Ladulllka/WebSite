@@ -1,0 +1,39 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<head>
+    <link rel="stylesheet" href="~/css/WarehouseShow.css" asp-append-version="true" />
+
+</head>
+
+
+   
+<div class="container" style="  max-width:1080px;   border-radius: 12px;    box-shadow: 0 4px 16px 2px rgb(0 26 52 / 20%);    padding-top: 10px;    padding-bottom: 15px;">
+    <h1 style="  box-shadow: 0 4px 16px 2px rgb(0 26 52 / 16%);    border-radius: 10px;    margin: 0px;    padding: 10px;">
+        Category page
+    </h1>
+    <div class="content">
+        @{
+        foreach (var d in ViewBag.data)
+        {
+                <div class="row warehouse-row" data-id="@d.id_category" data-toggle="modal" data-target="#products-modal-@d.id_category">
+                    <!-- Добавляем класс и атрибут для div с записью склада и атрибуты для модального окна -->
+                    <div class="col1">
+                        <div class="col">Id: @d.id_category</div>
+                        <div class="col">Name: @d.name_category</div>
+                    </div>
+
+                    <div class="col1">
+                        <div class="col"><button class="delete-button" data-id="@d.id_category">Delete</button></div> <!-- Добавляем кнопку с атрибутом data-id -->
+                    </div>
+
+                </div>
+        }
+    }
+
+</div>
+

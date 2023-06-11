@@ -11,8 +11,10 @@ namespace WebSite.Controllers
         {
             // Десериализовать JSON в список объектов
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync("https://localhost:7188/Show/Stock");
+            HttpResponseMessage response = await client.GetAsync("https://localhost:7188/Show/Stock" +
+                "");
             string json = await response.Content.ReadAsStringAsync();
+
             List<StockViewModel> data = JsonConvert.DeserializeObject<List<StockViewModel>>(json);
 
             foreach (var item in data)

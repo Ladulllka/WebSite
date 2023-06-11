@@ -29,7 +29,12 @@ namespace WebSite.Controllers
         }
 
         public async Task<IActionResult> WarehouseAsync()
+
+
         {
+
+
+           
             // Десериализовать JSON в список объектов
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync("https://localhost:7188/Show/Stock");
@@ -40,6 +45,8 @@ namespace WebSite.Controllers
             {
                 Debug.WriteLine(item); // или Trace.WriteLine(item)
             }
+            
+
             return View(data);
         }
 

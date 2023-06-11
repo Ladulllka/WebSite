@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WarehouseApi2.Model
 {
-    public class Product
+    public class ProductViewModel
     {
 
         [Key]
@@ -15,11 +15,13 @@ namespace WarehouseApi2.Model
         public string? description { get; set; }
 
         public decimal price { get; set; }
+        
+
 
         [ForeignKey("category")]
         public Guid? id_category { get; set; }
 
-        public Category? category { get; set; }
+        public string name_category { get; set; }
 
         
 

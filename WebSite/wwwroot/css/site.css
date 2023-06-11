@@ -16,3 +16,42 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.nav-item {
+    border: solid;
+    border-width: 5px;
+    border-radius: 40px 10px 40px 10px;
+    background-color: #d4aa70;
+    background: #ffffff;
+    margin: 5px;
+    transition-property: border-radius;
+    transition-duration: 0.5s;
+    border-color: rgb(214 214 214);
+    border-style: outset;
+}
+
+
+    .nav-item:hover {
+        border-radius: 10px 40px 10px 40px;
+        transition-property: border-radius;
+        transition: 0.5s;
+        
+        color: aliceblue;
+        border-color: #d4aa70;
+    }
+
+.Chose-warehouse {
+    text-align: center;
+    width: 190px;
+
+    border-width: 7px;
+    border-radius: 30px;
+    border-style: inset;
+    border-color: burlywood;
+    transition: transform 0.5s; /* добавлено */
+    margin-right: 10px;
+}
+
+    .Chose-warehouse:hover {
+        transform: scale(1.2); /* добавлено */
+    }

@@ -3,12 +3,72 @@
 *@
 @{
 }
+<style>
+    .carryng-form {
+        display: flex;
+        flex-direction: column;
+        max-width: 1000px;
+        box-shadow: 0 4px 16px 2px rgb(0 26 52 / 20%);
+        /* margin: 20px; */
+        padding: 20px;
+        border-radius: 15px;
+        /* max-height: 900px; */
+        align-items: stretch;
+        margin: auto;
+    }
 
-<input class="name"></input>
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    .AcceptData {
+        display: flex;
+        margin: auto;
+        width: 250px;
+        height: 30px;
+        border: solid;
+        border-style: ridge;
+        border-radius: 40px 10px 40px 10px;
+
+    transition-property: border-radius;
+    transition-duration: 0.5s;
+    }
+    /*�������� ��� ���� (������ ���������)*/
+    /*.BodyMainPage {
+        min-width: 1200px;
+
+    }*/
+
+    .AcceptData:hover {
+        border-radius: 10px 40px 10px 40px;
+        transition-property: border-radius;
+        transition-duration: 0.5s;
+        background: #ffffff;
+    }
+</style>
+
+
+<form class="carryng-form" id="carryng-form">
+    <h1>Add new warehouse</h1>
+    <div class="form-group">
+        <label for="warehouse">Warehouse name</label>
+        <input class="name"></input>
+
+    </div>
+    <div class="form-group">
+        <label for="product">Warehouse adress</label>
+        <input class="adres"></input>
+    </div>
+    <button id="accept-button" class="AcceptData"></button>
+</form>
+
+@*<input class="name"></input>
 
 <input class="adres"></input>
 
-<button id="accept-button" class="AcceptData"></button> <!-- Добавляем идентификатор -->
+<button id="accept-button" class="AcceptData"></button> <!-- Добавляем идентификатор -->*@
 
 <script>
 
@@ -29,7 +89,7 @@
 
             // Отправляем запрос с помощью fetch()
             fetch(url, {
-                method: 'GET'   
+                method: 'GET'
             })
                 .then(response => {
                     if (response.ok) {
@@ -50,5 +110,5 @@
         button.addEventListener("click", clickMe);
 
     });
-  
+
 </script>

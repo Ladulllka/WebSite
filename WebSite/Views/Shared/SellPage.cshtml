@@ -1,4 +1,6 @@
-﻿<form id="carryng-form">
+﻿
+<h1>Sell Page</h1>
+<form id="carryng-form">
     <div class="form-group">
         <label for="warehouse">Warehouse</label>
         <select id="warehouse" name="warehouse" asp-items="@(new SelectList(ViewBag.Data, "WarehouseID", "WarehouseName"))" class="form-control"></select>
@@ -10,6 +12,7 @@
     </div>
     <button type="submit" class="btn btn-primary" id="ButtonAccept">Accept</button>
 </form>
+
 <script>
     // Получаем элементы формы
     var button = document.getElementById("ButtonAccept");

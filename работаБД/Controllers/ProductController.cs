@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WarehouseApi2.Model;
 
 namespace WarehouseApi2.Controllers
@@ -34,6 +35,41 @@ namespace WarehouseApi2.Controllers
             }
 
         }
+        
+        [Route("ShowView/[controller]")]
+        [HttpGet]
+        public async Task<IActionResult> ShowViewAsync()
+        {
+            using (ContextDB db = new ContextDB())
+            {
+
+
+
+                var stockList = await db.product
+               .Include(s => s.category) // включение данных из таблицы Product
+               .ToListAsync();
+
+
+
+                var stockViewModelList = stockList.Select(s => new ProductViewModel
+                {
+                    id_product = s.id_product,
+                    name_product = s.name_product,
+                    id_category = s.category.id_category,
+                    name_category = s.category.name_category,
+                    price = s.price
+
+                }).ToList();
+
+
+
+
+               
+                return Ok(stockViewModelList);
+            }
+        }
+
+
 
         [Route("Dell/[controller]")]
         [HttpDelete]

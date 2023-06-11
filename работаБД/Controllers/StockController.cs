@@ -49,6 +49,7 @@ namespace WarehouseApi2.Controllers
         {
             using (ContextDB db = new ContextDB())
             {
+
                 var stockList = await db.stock
                 .Include(s => s.product) // включение данных из таблицы Product
                 .Include(s => s.warehouse) // включение данных из таблицы Warehouse
